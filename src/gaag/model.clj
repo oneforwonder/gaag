@@ -48,8 +48,8 @@
 (defn squares-adjacent? [sq1 sq2] 
   (let [[x1 y1] (cr-to-xy sq1)
         [x2 y2] (cr-to-xy sq2)
-        dx (abs (- x1 x2))
-        dy (abs (- y1 y2))]
+        dx (my-abs (- x1 x2))
+        dy (my-abs (- y1 y2))]]
         (= [0 1] (sort [dx dy]))))
 
 (defn adjacent-squares [square]

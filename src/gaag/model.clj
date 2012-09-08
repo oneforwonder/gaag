@@ -31,11 +31,16 @@
 (defn abs [n] 
   (if (< 0 n) (- n) n))
 
-(defn cr-to-xy [[c r]]
+(defn cr-to-xy
+  "Given [column row], return [x y]"
+
+  [[c r]]
   [(.indexOf columns c)
    (.indexOf rows r)])
 
-(defn xy-to-cr [[x y]]
+(defn xy-to-cr
+  "Given [x y], return [column row]"
+  [[x y]]
   [(get columns x)
    (get rows y)])
 

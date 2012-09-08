@@ -1,5 +1,26 @@
 (ns gaag.game
-    (:use [gaag.model]))
+    (:use [clojure.set] 
+          [gaag.model]))
+
+(defn valid-start-state? 
+  "Determine whether this is a valid starting state according to these rules:
+    - All of the squares in both home rows are full
+    - No squares outside of those rows are occupied
+    - The number of each type of animal is correct"
+  [board] 
+  (and (valid-start-state? board :gold)
+       (valid-start-state? board :silver)) 
+  
+  [board side]
+  (let [hrs (home-rows side)
+        ors (difference rows hrs)
+        sps (filter #(= (:side (val %)) side) board)]
+    (and 
+      (every? (fn [sq] (square-occupied? sq board)) 
+              (for [c columns r hrs] [c r])) 
+      (every? (fn [sq] (square-empty? sq board))
+              (for [c columns r ors] [c r])) 
+      (= animal-counts (frequencies (map :animal (vals board)))))))
 
 (defn piece-not-frozen? [square board]
   (not (:frozen? (board src))))

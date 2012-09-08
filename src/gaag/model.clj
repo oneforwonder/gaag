@@ -17,8 +17,14 @@
 
 (def sides [:gold :silver])
 
+(def home-rows
+    {:gold   [:1 :2]
+     :silver [:8 :7]})
+
 (def columns [:a :b :c :d :e :f :g :h])
 (def rows [:1 :2 :3 :4 :5 :6 :7 :8])
+
+(def all-squares (for [c columns r rows] [c r]))
 
 (def trap-squares [:c :3] [:f :3] 
                   [:c :6] [:f :6])
@@ -59,9 +65,11 @@
 
 (defn adjacent-friends [square board]
   (if-let [p (get board sq)] 
-    (filter #(= (:side p) (:side %)) (adjacent-pieces square board))))
+    (filter #(= (:side p) (:side %)) 
+            (adjacent-pieces square board))))
 
 (defn adjacent-enemies [square board]
   (if-let [p (get board sq)] 
-    (filter #(not= (:side p) (:side %)) (adjacent-pieces square board))))
+    (filter #(not= (:side p) (:side %)) 
+            (adjacent-pieces square board))))
 

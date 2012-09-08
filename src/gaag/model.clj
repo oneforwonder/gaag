@@ -1,7 +1,4 @@
 (ns gaag.model)
-    ;(:use [clojure.math.numeric-tower :only [abs]]))
-
-;Definitions of game material
 
 (defrecord Piece [animal side frozen?])
 
@@ -26,7 +23,7 @@
                    [:c :6] [:f :6]])
 
 ;Functions and shit
-;
+
 (defn my-abs
   "Absolute value of a number."
 
@@ -50,8 +47,13 @@
 (defn squares-adjacent? [sq1 sq2] 
   (let [[x1 y1] (cr-to-xy sq1)
         [x2 y2] (cr-to-xy sq2)
+<<<<<<< HEAD
         dx (my-abs (- x1 x2))
         dy (my-abs (- y1 y2))]
+=======
+        dx (abs (- x1 x2))
+        dy (abs (- y1 y2))]
+>>>>>>> 6ed6b46e9b1031c95beffc96b3ffecf690a04e22
         (= [0 1] (sort [dx dy]))))
 
 (defn adjacent-squares [square]
@@ -68,10 +70,18 @@
   (keep board (adjacent-squares square)))
 
 (defn adjacent-friends [square board]
+<<<<<<< HEAD
   (if-let [p (get board square)] 
     (filter #(= (:side p) (:side %)) (adjacent-pieces square board))))
 
 (defn adjacent-enemies [square board]
   (if-let [p (get board square)] 
+=======
+  (if-let [p (get board sq)] 
+    (filter #(= (:side p) (:side %)) (adjacent-pieces square board))))
+
+(defn adjacent-enemies [square board]
+  (if-let [p (get board sq)] 
+>>>>>>> 6ed6b46e9b1031c95beffc96b3ffecf690a04e22
     (filter #(not= (:side p) (:side %)) (adjacent-pieces square board))))
 

@@ -1,5 +1,4 @@
-(ns gaag.model
-    (:use [clojure.math.numeric-tower :only [abs]]))
+(ns gaag.model)
 
 (defrecord Piece [animal side frozen?])
 
@@ -26,8 +25,11 @@
 
 (def all-squares (for [c columns r rows] [c r]))
 
-(def trap-squares [:c :3] [:f :3] 
-                  [:c :6] [:f :6])
+(def trap-squares [[:c :3] [:f :3] 
+                   [:c :6] [:f :6]])
+
+(defn abs [n] 
+  (if (< 0 n) (- n) n))
 
 (defn cr-to-xy [[c r]]
   [(.indexOf columns c)
@@ -64,12 +66,12 @@
   (keep board (adjacent-squares square)))
 
 (defn adjacent-friends [square board]
-  (if-let [p (get board sq)] 
+  (if-let [p (get board square)] 
     (filter #(= (:side p) (:side %)) 
-            (adjacent-pieces square board))))
+            (adjacent-pieces square board)))
 
 (defn adjacent-enemies [square board]
-  (if-let [p (get board sq)] 
+  (if-let [p (get board square)] 
     (filter #(not= (:side p) (:side %)) 
-            (adjacent-pieces square board))))
+            (adjacent-pieces square board)))))
 

@@ -33,7 +33,6 @@
 
 (defn cr-to-xy
   "Given [column row], return [x y]"
-
   [[c r]]
   [(.indexOf columns c)
    (.indexOf rows r)])

@@ -16,11 +16,11 @@
         ors (difference rows hrs)
         sps (filter #(= (:side (val %)) side) board)]
     (and 
-      (every? (fn [sq] (square-occupied? sq board)) 
+      (every? (fn [sq] (square-occupied? sq sps)) 
               (for [c columns r hrs] [c r])) 
-      (every? (fn [sq] (square-empty? sq board))
+      (every? (fn [sq] (square-empty? sq sps))
               (for [c columns r ors] [c r])) 
-      (= animal-counts (frequencies (map :animal (vals board)))))))
+      (= animal-counts (frequencies (map :animal (vals sps)))))))
 
 (defn piece-not-frozen? [square board]
   (not (:frozen? (board src))))

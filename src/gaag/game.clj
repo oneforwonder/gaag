@@ -60,8 +60,9 @@
       (filter adjacent-friends trap-squares)))
 
 (defn update-frozen [board]
-  board ; TODO
-  )
+  (reduce (fn [b [sq p]] 
+              (assoc-in b [sq :frozen?] (frozen? sq b)))
+          board board))
 
 (defn apply-move [move board]
   (->> board

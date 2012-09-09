@@ -1,6 +1,6 @@
 (ns gaag.model)
 
-(defrecord Piece [animal side frozen?])
+(defrecord Piece [animal rank side frozen?])
 
 (def animals [:elephant :camel :horse :dog :cat :rabbit])
 
@@ -78,4 +78,12 @@
   (if-let [p (get board square)] 
     (filter #(not= (:side p) (:side %)) 
             (adjacent-pieces square board)))))
+
+(defn frozen? [square board]
+  (if-let [p (get board square)]
+    (let [afs (adjacent-friends sq)
+          aes (adjacent-enemies sq)]
+      (and (empty? afs)
+           (not (empty? aes))
+           (some (fn [e] (< (:rank p) (:rank e))) aes)))))
 

@@ -25,6 +25,27 @@
 (defn piece-not-frozen? [square board]
   (not (:frozen? (board src))))
 
+(defn valid-dislodge? [move board active-side prev-move next-move]
+  (let [[src dest]   move
+        [psrc pdest] prev-move
+        [nsrc ndest] next-move
+        p (get board src)]
+    (and (not (nil? p)) 
+         (not= (:side p) active-side)
+         (or (if-let [pp (get board pdest)]
+               (and (= (:side pp) active-side)
+                    (< (:rank p) (:rank pp)))) 
+             (if-let [np (get board nsrc)]
+               (and (= (:side np) active-side)
+                    (< (:rank p) (:rank np))))))))
+
+(defn valid-movement? [move board active-side]
+  (let [[src dest] move
+        p (get board src)]
+    (and (not (nil? p))
+         (= (:side p) active-side)
+         (not (:frozen? p))) ))
+
 (defn valid-move? 
   "Determine whether this a valid move according to these rules:
     - A piece must exist at the source
@@ -38,22 +59,20 @@
     - If the piece being moved belongs to the active player, then 
       the piece cannot be frozen"
   [move board active-side prev-move next-move]
-  (let [[src dest] move
-        p (get board src)]
-      (every? identity
-        [(square-occupied? src board)
-         (square-empty? dest board)
-         (squares-adjacent? src dest)
-         (or (= (:side p) active-side)
-             ; TODO
-             )
-         (or (not= (:side p) active-side)
-             (not (:frozen? p)))])))
+  (let [[src dest] move]
+      (and
+        (square-occupied? src board)
+        (square-empty? dest board)
+        (squares-adjacent? src dest)
+        (or (valid-dislodge? move board active-side prev-move next-move)
+            (valid-movement? move board active-side)))))
 
 (defn move-piece [move board]
   (let [[src dest] move
         piece (board src)]
-    (assoc (dissoc board src) dest piece)))
+    (-> board
+        (dissoc src)
+        (assoc dest piece))))
 
 (defn remove-trapped [board]
   (apply dissoc board 

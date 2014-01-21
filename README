@@ -1,13 +1,16 @@
 # gaag
 
-FIXME: write description
+Gaag is planned to be a "Genetic Arimaa algorithm generator", however, as of
+this version, it is merely an encoding of the rules of Arimaa in Clojure, and
+code to display an Arimaa board at the console or in a Swing GUI.
 
 ## Usage
 
-FIXME: write
+Gaag currently has no main function and instead is run interactively in the
+development environment of your choice.
 
 ## License
 
-Copyright (C) 2012 FIXME
+Copyright (C) 2012 Robert Nagle (rjn945) and Alex Ponting (eleglac)
 
 Distributed under the Eclipse Public License, the same as Clojure.
